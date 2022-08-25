@@ -1,10 +1,7 @@
 package org.launchcode.hellospring.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HelloController {
@@ -18,14 +15,14 @@ public class HelloController {
 //        return "Hello, Spring!";
 //    }
 
-    @GetMapping("goodbye")
-    @ResponseBody
-    public String goodbye(){
-        return "Goodbye, Spring!";
-    }
+//    @GetMapping("goodbye")
+//    @ResponseBody
+//    public String goodbye(){
+//        return "Goodbye, Spring!";
+//    }
 
     //handles requests of the form /hello?name=LaunchCode (dynamic handler, means accepts data)
-    @GetMapping("hello")
+    @RequestMapping(value="hello", method={RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public String helloWithQueryParam(@RequestParam String name){
         return "Hello, " + name + "!";
@@ -39,19 +36,7 @@ public class HelloController {
     }
 
     @GetMapping("form")
-    @ResponseBody
     public String helloForm(){
-        return "<html>" +
-                "<body>" +
-                "<form action='hello'>" + //submit a request to /hello
-                "<input type = 'text' name='name'>" +
-                "<select name= 'language'>" +
-                "<option value='French'>French</option>" +
-                "<option value= 'Spanish'> Spanish</option>" +
-                "<option value= 'English'>English</option>" +
-                "<input type='submit' value='Greet me!'>" +
-                "</form>" +
-                "</body>" +
-                "</html>";
+        return "form";
     }
 }
