@@ -1,42 +1,58 @@
 package org.launchcode.hellospring.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class HelloController {
-
-
-
-//    @GetMapping("hello") //handles request at path /hello
-//    //@GetMapping //this method handles get requests
-//    @ResponseBody //tells spring boot that this method is going to return a plain text response
-//    public String hello() {
-//        return "Hello, Spring!";
-//    }
-
-    @GetMapping("goodbye")
-    @ResponseBody
-    public String goodbye(){
-        return "Goodbye, Spring!";
-    }
-
-    //handles requests of the form /hello?name=LaunchCode (dynamic handler, means accepts data)
     @GetMapping("hello")
     @ResponseBody
-    public String helloWithQueryParam(@RequestParam String name){
-        return "Hello, " + name + "!";
+    public String helloWithQueryParam(@RequestParam String name, @RequestParam String l ){
+        String greeting = "";
+
+        if (l.equals("english")) {
+            greeting = "Hello";
+        }
+        else if (l.equals("french")) {
+            greeting = "Bonjour";
+
+        }
+        else if (l.equals("spanish")) {
+            greeting = "Hola";
+        }
+        return greeting + " " + name;
+
     }
 
-//Handles request of the form /hello/LaunchCode (the piece of the data is part of the path and not the query
-    @GetMapping("hello/{name}")
+    @RequestMapping(value="hello", method = RequestMethod.POST)
     @ResponseBody
-    public String helloWithPathParam(@PathVariable String name){
-        return "Hello, " + name + "!";
+    public String helloPost(@RequestParam String name, @RequestParam String language) {
+        if (name == null) {
+            name = "World";
+        }
+
+        return createMessage(name, language);
+
+        // For a bonus mission, students can change this response text to look nicer.
+        // This is subjective, but students should be modifying the HTML of the response string.
     }
+
+    public static String createMessage(String n, String l) {
+        String greeting = "";
+
+        if (l.equals("english")) {
+            greeting = "Hello";
+        }
+        else if (l.equals("french")) {
+            greeting = "Bonjour";
+
+        }
+        else if (l.equals("spanish")) {
+            greeting = "Hola";
+        }
+        return greeting + " " + n;
+    }
+
 
     @GetMapping("form")
     @ResponseBody
@@ -45,10 +61,10 @@ public class HelloController {
                 "<body>" +
                 "<form action='hello'>" + //submit a request to /hello
                 "<input type = 'text' name='name'>" +
-                "<select name= 'language'>" +
-                "<option value='French'>French</option>" +
-                "<option value= 'Spanish'> Spanish</option>" +
-                "<option value= 'English'>English</option>" +
+                "<select name= 'l'>" +
+                "<option value='french'>French</option>" +
+                "<option value= 'spanish'> Spanish</option>" +
+                "<option value= 'english'>English</option>" +
                 "<input type='submit' value='Greet me!'>" +
                 "</form>" +
                 "</body>" +
